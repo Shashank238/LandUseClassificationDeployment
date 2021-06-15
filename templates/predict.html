@@ -1,0 +1,76 @@
+
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Application</title>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <style>
+        .image-preview{
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: 200px;
+            border: 2px solid #dddddd;
+            margin-top: 15px;
+                        
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #cccccc;
+        }
+        .image-preview__image{
+            text-align: center;           
+            font-weight: bold;
+            width: 100%;
+            
+        }
+    </style>
+</head>
+<body>
+<form name="contactForm"   method="post"  enctype="multipart/form-data">
+    <h1 align="center">Land Use Scene Classification</h1>
+    <h3 align="center">This web application is used to classify what type of land is being used in a particular area by using the satellite images and aerial photographs which is trained on Convolution Neural Networks</h3>
+    <h3 align="center">Upload your image below</h3>
+    <input class="form-control" accept="image/*" type="file"  name="inpuFile" id="inpFile" onchange="previewFile(this);" required> 
+    {% if img_data %}
+    <div class="image-preview" id="imagePreview">
+        <img id="previewImg" src="data:image/jpeg;base64,{{ img_data }}"  alt="Image Preview" class="image-preview__image" >
+     
+    </div>         
+    {% endif %}        
+    <div class="row">
+        <input class="btn btn-primary mt-3" type="submit" value="Predict image">
+    </div>
+    <div class="loader" style="display:none;"></div>
+    {% if prediction %}
+    <h2 align="center" class="text-centre"> Image Predicted is {{prediction}} </h2>
+    {% endif %}
+</form>
+<script>
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+        const previewImage = document.getElementById("previewImg");
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#previewImg").attr("src", reader.result);
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+
+        else{
+            previewImage.style.display = null;
+            previewImage.setAttribute("src","");
+        }
+        
+    }
+   
+</script>
+</body>
+</html>

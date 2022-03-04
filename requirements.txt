@@ -12,7 +12,7 @@ pip==21.0.1
 scikit-learn==0.24.2
 seaborn
 statsmodels
-tensorflow
+tensorflow-cpu==2.3.4
 Werkzeug==2.0.1
 whichcraft==0.6.1
 zipp==3.4.1

@@ -12,13 +12,15 @@ import io
 from tensorflow.keras.applications.resnet50 import preprocess_input
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-
+from utils.utils import decodeImage , encodeImageIntoBase64
 
 from flask import Flask, redirect, url_for, request, render_template
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 
-names=['airplane',
+names=['Priority traffic',
+ 'Signal traffic',
+ 'airplane',
  'airport',
  'baseball_diamond',
  'basketball_court',
@@ -53,7 +55,6 @@ names=['airplane',
  'overpass',
  'palace',
  'parking_lot',
- 'priority traffic',
  'railway',
  'railway_station',
  'rectangular_farmland',
@@ -63,7 +64,6 @@ names=['airplane',
  'sea_ice',
  'ship',
  'shipping_yard',
- 'signal traffic',
  'snowberg',
  'solar_panel',
  'sparse_residential',
@@ -115,7 +115,7 @@ def upload():
         # Save the file to ./uploads
         basepath = os.path.dirname(__file__)
         file_path = os.path.join(
-            basepath, 'uploads', secure_filename(f.filename))
+            basepath, 'uploads', secure_filename('image.jpg'))
         f.save(file_path)
         
         im = Image.open(file_path)
@@ -130,7 +130,6 @@ def upload():
         preds = model_predict(file_path, model)
         result=preds
         return render_template("predict.html",prediction=result ,img_data=encoded_img_data.decode('utf-8'))
-       
 
 if __name__ == '__main__':
     app.run(debug=True)

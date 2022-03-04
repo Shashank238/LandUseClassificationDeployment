@@ -17,7 +17,7 @@ tensorflow-cpu==2.3.4
 Werkzeug==2.0.1
 whichcraft==0.6.1
 zipp==3.4.1
-
+gunicorn
 
 
 

@@ -15,6 +15,7 @@ from tensorflow.keras.preprocessing import image
 
 
 from flask import Flask, redirect, url_for, request, render_template
+from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 
 names=['airplane',
@@ -77,7 +78,7 @@ names=['airplane',
 
 # Define a flask app
 app = Flask(__name__,template_folder='templates')
-
+CORS(app)
 # Model saved with Keras model.save()
 MODEL_PATH ='model_for_mobilenet.h5'
 
@@ -99,11 +100,13 @@ def model_predict(img_path, model):
     return resultss
     
 @app.route('/', methods=['GET'])
+@cross_origin()
 def index():
     # Main page
     return render_template('index.html')
 
 @app.route('/', methods=['GET', 'POST'])
+@cross_origin()
 def upload():
     if request.method == 'POST':
         # Get the file from post request
@@ -130,7 +133,7 @@ def upload():
        
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8080,debug=True)
+    app.run(debug=True)
 
 
 
